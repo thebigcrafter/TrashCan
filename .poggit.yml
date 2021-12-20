@@ -5,4 +5,8 @@ branches:
 projects:
   TrashCan:
     path: ""
+    libs:
+    - src: Muqsit/InvMenu/InvMenu
+      version: ^4.3.4
+      branch: 4.0
 ...
