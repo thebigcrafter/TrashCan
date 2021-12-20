@@ -1,0 +1,15 @@
+name: TrashCan
+author: MintoD
+version: 1.0.0
+api: 4.0.0
+main: MintoD\TrashCan\TrashCan
+
+commands:
+  trashcan:
+    description: Open trash can
+    permission: trashcan.cmd
+
+permissions:
+  trashcan.cmd:
+    description: Allows the player to open the trash can
+    default: true
