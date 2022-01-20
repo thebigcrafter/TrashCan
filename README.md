@@ -1,3 +1,7 @@
+[![](https://poggit.pmmp.io/shield.state/Trash_Can)](https://poggit.pmmp.io/p/Trash_Can)
+[![](https://poggit.pmmp.io/shield.api/Trash_Can)](https://poggit.pmmp.io/p/Trash_Can)
+[![](https://poggit.pmmp.io/shield.dl.total/Trash_Can)](https://poggit.pmmp.io/p/Trash_Can)
+
 <div align="center">
   <a href="https://github.com/MintoD/TrashCan">
     <img src="assets/icon.jpg" alt="Logo" width="100" height="100">
