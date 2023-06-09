@@ -5,6 +5,7 @@ branches:
 projects:
   TrashCan:
     path: ""
+    icon: "assets/icon.jpg"
     libs:
     - src: Muqsit/InvMenu/InvMenu
       version: ^4.3.4
