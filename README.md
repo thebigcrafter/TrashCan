@@ -24,7 +24,9 @@ Your server **MUST RUN** the latest version of PocketMine.
 
 ### From Poggit
 
-Update later.
+1. Download the latest version of the plugin from [here](https://poggit.pmmp.io/p/Trash_Can).
+2. Put it in the plugins folder.
+3. Restart your server.
 
 ### From GitHub
 
