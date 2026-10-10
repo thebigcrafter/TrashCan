@@ -13,6 +13,13 @@
 
 A PocketMine-MP plugin adds to the server a command which shows a trash can when executed.
 
+# ✅ Requirements
+
+- PocketMine-MP API 5.0.0 or a compatible API 5 release.
+- [InvMenu](https://github.com/Muqsit/InvMenu) is bundled as the plugin's virion dependency when the plugin is packaged.
+
+The `/trashcan` command opens an empty chest-style inventory for players. Console senders and other non-player command senders receive an explanatory message instead.
+
 # ⬇️ Installation
 
 1. Download the latest version from GitHub Releases or Poggit CI below:
@@ -26,6 +33,12 @@ A PocketMine-MP plugin adds to the server a command which shows a trash can when
 |   Command   |    Description    |
 |:-----------:|:-----------------:|
 | `/trashcan` | Open a trash can. |
+
+The `trashcan.cmd` permission is enabled by default. Grant or revoke it with the server's normal permission management tools.
+
+# 🛠️ Development
+
+The repository contains a locked Composer development setup for PHPStan. Run `composer install` and `composer run analyse` before changing source code. The project also keeps its Poggit manifest for the existing build path; the declared InvMenu dependency must remain compatible with the builder and the target API before publishing a new artifact.
 
 # ⚖️ License
 
