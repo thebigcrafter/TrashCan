@@ -37,7 +37,7 @@ class TrashCan extends PluginBase
      * @param CommandSender $sender
      * @param Command $command
      * @param string $label
-     * @param array $args
+     * @param array<string> $args
      *
      * @return bool
      */
@@ -46,7 +46,8 @@ class TrashCan extends PluginBase
         if ($command->getName() === "trashcan") {
             if ($sender instanceof Player) {
                 $menu = InvMenu::create(InvMenuTypeIds::TYPE_CHEST);
-                $menu->setName($this->config->get("trash.can.title"));
+                $title = $this->config->get("trash.can.title");
+                $menu->setName(is_string($title) ? $title : "Trash Can");
 
                 $menu->send($sender);
             } else {
