@@ -11,11 +11,12 @@
 
 # 📖 About
 
-A PocketMine-MP plugin adds to the server a command which shows a trash can when executed.
+An Axolotl-PM plugin that adds a command for opening a trash can inventory.
 
 # ✅ Requirements
 
-- PocketMine-MP API 5.0.0 or a compatible API 5 release.
+- Axolotl-PM API 5.0.0 or a compatible API 5 release.
+- [Axolotl-PM](https://github.com/axolotl-pm/PocketMine-MP) is the supported server runtime.
 - [InvMenu](https://github.com/Muqsit/InvMenu) is bundled as the plugin's virion dependency when the plugin is packaged.
 
 The `/trashcan` command opens an empty chest-style inventory for players. Console senders and other non-player command senders receive an explanatory message instead.
