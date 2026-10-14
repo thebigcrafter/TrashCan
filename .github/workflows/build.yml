@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Check out plugin source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
 
       - name: Download pinned InvMenu virion
         shell: bash
@@ -28,7 +28,7 @@ jobs:
           echo "$INVMENU_SHA256  virions/InvMenu_dev-209.phar" | sha256sum --check --status
 
       - name: Check out pinned Axolotl-PM source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
         with:
           repository: axolotl-pm/PocketMine-MP
           ref: dfe0d07e48a9e8d5a4a242fa43ff1cd3b743a955
@@ -36,7 +36,7 @@ jobs:
           persist-credentials: false
 
       - name: Check out Axolotl-PM PHP setup helper
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
         with:
           repository: axolotl-pm/setup-php-action
           ref: b8c3f9add4f2ad4a5e2624a1112aba899ee8db0e
@@ -52,7 +52,7 @@ jobs:
         run: node "$GITHUB_WORKSPACE/.devtools-dependencies/setup-php-action/dist/index.js"
 
       - name: Check out pinned DevTools source
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
         with:
           repository: NhanAZ/DevTools
           ref: 3dedda2a1f6e42885aa680aaadeebacbc0f62733
