@@ -1,0 +1,108 @@
+name: Build and validate TrashCan plugin
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and validate TrashCan plugin
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out plugin source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Download pinned InvMenu virion
+        shell: bash
+        env:
+          INVMENU_URL: https://github.com/Muqsit/InvMenu/releases/download/4.7.4/InvMenu_dev-209.phar
+          INVMENU_SHA256: 18281d7574c5519b0834e3afaa9be8d456a4096f76ff39d84669cf65b5bf0382
+        run: |
+          set -euo pipefail
+          mkdir -p virions
+          curl --fail --location --retry 3 --silent --show-error "$INVMENU_URL" --output virions/InvMenu_dev-209.phar
+          echo "$INVMENU_SHA256  virions/InvMenu_dev-209.phar" | sha256sum --check --status
+
+      - name: Check out pinned Axolotl-PM source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: axolotl-pm/PocketMine-MP
+          ref: dfe0d07e48a9e8d5a4a242fa43ff1cd3b743a955
+          path: .devtools-dependencies/axolotl-pm
+          persist-credentials: false
+
+      - name: Check out Axolotl-PM PHP setup helper
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: axolotl-pm/setup-php-action
+          ref: b8c3f9add4f2ad4a5e2624a1112aba899ee8db0e
+          path: .devtools-dependencies/setup-php-action
+          persist-credentials: false
+
+      - name: Set up Axolotl-PM PHP on Node.js 24
+        shell: bash
+        env:
+          INPUT_PHP-VERSION: '8.2'
+          INPUT_PM-VERSION-MAJOR: '5'
+          INPUT_INSTALL-PATH: ./.php-bin
+        run: node "$GITHUB_WORKSPACE/.devtools-dependencies/setup-php-action/dist/index.js"
+
+      - name: Check out pinned DevTools source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: NhanAZ/DevTools
+          ref: 3dedda2a1f6e42885aa680aaadeebacbc0f62733
+          path: .devtools-dependencies/tool
+          persist-credentials: false
+
+      - name: Verify build tool identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git -C .devtools-dependencies/tool rev-parse HEAD)" = "3dedda2a1f6e42885aa680aaadeebacbc0f62733"
+          test -f .devtools-dependencies/tool/bin/devtools.php
+          test -f .devtools-dependencies/tool/.github/scripts/artifact-contract.mjs
+
+      - name: Build plugin PHAR and run PHPStan
+        id: devtools
+        uses: ./.devtools-dependencies/tool
+        with:
+          prepare-dependencies: true
+          project: .
+          virions: virions
+          output: build
+          overwrite: true
+          phpstan: max
+          phpstan-server: .devtools-dependencies/axolotl-pm
+          phpstan-paths: src
+
+      - name: Inspect verified PHAR
+        shell: bash
+        env:
+          BUILD_PHAR: ${{ steps.devtools.outputs.phar }}
+        run: php .devtools-dependencies/tool/bin/devtools.php inspect --project=. --artifact="$BUILD_PHAR" --json
+
+      - name: Prepare artifact metadata
+        id: metadata
+        shell: bash
+        env:
+          BUILD_METADATA: ${{ steps.devtools.outputs.metadata }}
+          BUILD_PHAR: ${{ steps.devtools.outputs.phar }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/devtools-artifact"
+          cp "$BUILD_METADATA" "$RUNNER_TEMP/devtools-artifact/build-metadata.json"
+          cp "$BUILD_PHAR" "$RUNNER_TEMP/devtools-artifact/"
+          printf 'artifact-name=TrashCan-%s\n' "$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Upload verified plugin artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: ${{ steps.metadata.outputs.artifact-name }}
+          path: ${{ runner.temp }}/devtools-artifact/
+          if-no-files-found: error
+          retention-days: 14
