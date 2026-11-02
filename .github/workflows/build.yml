@@ -31,7 +31,7 @@ jobs:
         uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
         with:
           repository: axolotl-pm/PocketMine-MP
-          ref: dfe0d07e48a9e8d5a4a242fa43ff1cd3b743a955
+          ref: e881fc1bc1c401545baf6bd1f824e41ff3f57bd1
           path: .devtools-dependencies/axolotl-pm
           persist-credentials: false
 
@@ -46,7 +46,7 @@ jobs:
       - name: Set up Axolotl-PM PHP on Node.js 24
         shell: bash
         env:
-          INPUT_PHP-VERSION: '8.2'
+          INPUT_PHP-VERSION: 8.4
           INPUT_PM-VERSION-MAJOR: '5'
           INPUT_INSTALL-PATH: ./.php-bin
         run: node "$GITHUB_WORKSPACE/.devtools-dependencies/setup-php-action/dist/index.js"
@@ -55,7 +55,7 @@ jobs:
         uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
         with:
           repository: NhanAZ/DevTools
-          ref: 3dedda2a1f6e42885aa680aaadeebacbc0f62733
+          ref: 565bc76b54edc15028ba0c9d545a7e60a81f9414
           path: .devtools-dependencies/tool
           persist-credentials: false
 
@@ -63,7 +63,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git -C .devtools-dependencies/tool rev-parse HEAD)" = "3dedda2a1f6e42885aa680aaadeebacbc0f62733"
+          test "$(git -C .devtools-dependencies/tool rev-parse HEAD)" = "565bc76b54edc15028ba0c9d545a7e60a81f9414"
           test -f .devtools-dependencies/tool/bin/devtools.php
           test -f .devtools-dependencies/tool/.github/scripts/artifact-contract.mjs
 
@@ -105,4 +105,3 @@ jobs:
           name: ${{ steps.metadata.outputs.artifact-name }}
           path: ${{ runner.temp }}/devtools-artifact/
           if-no-files-found: error
-          retention-days: 14
