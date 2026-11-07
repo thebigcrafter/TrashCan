@@ -54,8 +54,8 @@ jobs:
       - name: Check out pinned DevTools source
         uses: actions/checkout@f548e57e544e1ff5a4c46bf1e1b8685f8e4a348a
         with:
-          repository: NhanAZ/DevTools
-          ref: 565bc76b54edc15028ba0c9d545a7e60a81f9414
+          repository: AxolotlBucketLabs/DevTools
+          ref: 04fd726101109739bf1fd629dbe8499d3e2864bb
           path: .devtools-dependencies/tool
           persist-credentials: false
 
@@ -63,7 +63,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git -C .devtools-dependencies/tool rev-parse HEAD)" = "565bc76b54edc15028ba0c9d545a7e60a81f9414"
+          test "$(git -C .devtools-dependencies/tool rev-parse HEAD)" = "04fd726101109739bf1fd629dbe8499d3e2864bb"
           test -f .devtools-dependencies/tool/bin/devtools.php
           test -f .devtools-dependencies/tool/.github/scripts/artifact-contract.mjs
 
